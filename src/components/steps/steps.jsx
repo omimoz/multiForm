@@ -1,5 +1,15 @@
-import CustomForm from "../form/Form";
 import { formTxt } from "../lang/Statictxt";
+export const steps = [
+  {
+    id: 1,
+  },
+  {
+    id: 2,
+  },
+  {
+    id: 3,
+  },
+];
 
 export const stepContent = [
   {
@@ -63,19 +73,5 @@ export const stepContent = [
         options: [formTxt.thirdStep.item1, formTxt.thirdStep.item2],
       },
     ],
-  },
-];
-export const steps = [
-  {
-    id: 1,
-    content: <CustomForm data={stepContent[0]} />,
-  },
-  {
-    id: 2,
-    content: <CustomForm data={stepContent[1]} />,
-  },
-  {
-    id: 3,
-    content: <CustomForm data={stepContent[2]} />,
   },
 ];

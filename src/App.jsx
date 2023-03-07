@@ -2,18 +2,23 @@ import { css } from "@emotion/css";
 import { Layout } from "antd";
 import { Steps } from "antd";
 import { useSelector } from "react-redux";
-import { steps } from "./components/steps/steps";
+import CustomForm from "./components/form/Form";
+import useDimenstion from "./components/hooks/useDimention";
+import { stepContent, steps } from "./components/steps/steps";
 const { Content } = Layout;
 function App() {
+  const { width } = useDimenstion();
   const current = useSelector((state) => state.multiStepReducer.current);
   const items = steps.map((item) => ({ key: item.id }));
   return (
-    <div className={style}>
+    <div className={style(width)}>
       <Layout className="wrapper">
         <Content className="content">
           <>
             <Steps current={current} items={items} responsive={false} />
-            <div>{steps[current].content}</div>
+            <div>
+              <CustomForm data={stepContent[current]} />
+            </div>
           </>
         </Content>
       </Layout>
@@ -22,7 +27,7 @@ function App() {
 }
 
 export default App;
-const style = css`
+const style = (width) => css`
   height: 100vh;
   width: 100%;
   display: flex;
@@ -40,6 +45,10 @@ const style = css`
     background-color: rgb(255, 255, 255);
     margin: 2rem 1rem;
     border-radius: 7px;
-    padding: 2rem 4rem;
+    padding: ${width > 800
+      ? "2rem 4rem"
+      : width > 600
+      ? "2rem 2rem"
+      : "2rem 1rem"};
   }
 `;

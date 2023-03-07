@@ -5,7 +5,9 @@ import { css } from "@emotion/css";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrent, setInputVal } from "../redux/MultiStep/multiSteps";
 import { steps } from "../steps/steps";
+import useDimenstion from "../hooks/useDimention";
 const CustomForm = ({ data }) => {
+  const { width } = useDimenstion();
   const [disabled, setDisabled] = useState(true);
   const inputVal = useSelector((state) => state.multiStepReducer.inputVal);
   const current = useSelector((state) => state.multiStepReducer.current);
@@ -27,12 +29,12 @@ const CustomForm = ({ data }) => {
     }
   }, [inputVal, current]);
   return (
-    <Form name={data.name} className={style}>
+    <Form name={data.name} className={style(width)}>
       <div className="Formwrapper">
         <div className="question">{data.title}</div>
-        <Row gutter={[16, 24]}>
+        <Row gutter={[16, 24]} className="formContent">
           {data?.items.map((item) => (
-            <Col span={24 / data.span} key={item.id}>
+            <Col span={width > 700 ? 24 / data.span : 24} key={item.id}>
               <Form.Item name={item.name} label={item.label}>
                 {item.type === "checkbox" ? (
                   <Checkbox
@@ -120,13 +122,13 @@ const CustomForm = ({ data }) => {
 };
 
 export default CustomForm;
-const style = css`
+const style = (width) => css`
   .Formwrapper {
     padding: 2rem;
   }
   .question {
     margin-bottom: 1rem;
-    font-size: 1.1rem;
+    font-size: ${width > 800 ? "1.1rem" : "16px"};
   }
   .customradio {
     width: 100%;
@@ -137,5 +139,8 @@ const style = css`
       width: 50%;
       margin: 0;
     }
+  }
+  .formContent {
+    margin-right: 1rem;
   }
 `;
